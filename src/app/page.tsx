@@ -30,10 +30,10 @@ export default function Home() {
             className="text-[15vw] md:text-[13vw] font-bold tracking-tighter leading-none uppercase text-center cursor-pointer text-background hover:text-primary transition-colors duration-500"
           />
           <a
-            href="mailto:sreeshanthreddy21@gmail.com"
+            href="mailto:sreeshanthreddy2529@gmail.com"
             className="mt-6 md:mt-8 text-lg md:text-2xl lg:text-3xl font-medium tracking-tight border-b-2 border-transparent hover:border-background transition-colors duration-300 break-all text-center px-4"
           >
-            sreeshanthreddy21@gmail.com
+            sreeshanthreddy2529@gmail.com
           </a>
         </div>
 

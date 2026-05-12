@@ -6,6 +6,7 @@ import CustomCursor from "@/components/CustomCursor";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Navbar from "@/components/Navbar";
 import Preloader from "@/components/Preloader";
+import GlobalCanvas from "@/components/GlobalCanvas";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +38,8 @@ export default function RootLayout({
                 <rect width="100%" height="100%" filter="url(#noise)" />
               </svg>
             </div>
+
+            <GlobalCanvas />
 
             {children}
           </Providers>

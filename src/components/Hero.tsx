@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import Hero3DCanvas from "./Hero3DCanvas";
 import { ArrowRight } from "lucide-react";
 import MagneticButton from "./MagneticButton";
 
@@ -59,8 +58,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden bg-background">
-      <Hero3DCanvas />
+    <section className="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden bg-transparent">
       
       <motion.div
         variants={containerVariants}

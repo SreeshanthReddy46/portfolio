@@ -20,10 +20,16 @@ export default function Skills() {
 
   return (
     <section ref={containerRef} className="py-48 w-full overflow-hidden bg-background relative flex flex-col justify-center gap-8 md:gap-16 border-t border-foreground/5">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl text-center z-10 pointer-events-none mix-blend-difference text-white">
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl text-center z-10 pointer-events-none mix-blend-difference text-white"
+      >
         <h2 className="text-xl md:text-2xl font-medium tracking-widest uppercase mb-4 opacity-50">Core Arsenal</h2>
         <p className="text-sm md:text-base opacity-30">Technologies driving the experience.</p>
-      </div>
+      </motion.div>
 
       <motion.div style={{ x: x1 }} className="flex whitespace-nowrap gap-16 md:gap-32 will-change-transform opacity-90">
         {skillsRow1.map((skill, i) => (

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 
 const educationItems = [
   {
@@ -40,24 +40,62 @@ function EducationRow({
   item: (typeof educationItems)[0];
   index: number;
 }) {
+  const rowRef = useRef<HTMLDivElement>(null);
+
   // Touch-friendly: toggle active on tap, hover on desktop
   const [active, setActive] = useState(false);
 
+  // Spotlight state
+  const [spotlight, setSpotlight] = useState<{ x: number; y: number } | null>(null);
+
   const toggle = () => setActive((p) => !p);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = rowRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setSpotlight({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setSpotlight(null);
+  }, []);
 
   return (
     <motion.div
+      ref={rowRef}
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.9, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       onClick={toggle}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       className={`edu-row group relative flex flex-col md:flex-row justify-between py-10 md:py-12 border-t border-foreground/10 cursor-pointer overflow-hidden select-none ${
         active ? "edu-active" : ""
       }`}
     >
       {/* Hover fill sweep — also triggers on .edu-active (touch tap) */}
       <div className="edu-fill absolute inset-0 bg-foreground translate-y-[101%] transition-transform duration-[1s] ease-[cubic-bezier(0.16,1,0.3,1)] z-0" />
+
+      {/* Mouse spotlight radial glow */}
+      {spotlight && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute z-[1] transition-opacity duration-300"
+          style={{
+            left: spotlight.x,
+            top: spotlight.y,
+            transform: "translate(-50%, -50%)",
+            width: 420,
+            height: 420,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(0,240,255,0.55) 0%, rgba(138,43,226,0.35) 35%, rgba(255,0,127,0.10) 60%, transparent 75%)",
+            filter: "blur(6px)",
+            mixBlendMode: "screen",
+          }}
+        />
+      )}
 
       {/* Left: year + institution */}
       <motion.div

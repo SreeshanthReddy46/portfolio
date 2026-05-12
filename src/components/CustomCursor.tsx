@@ -101,7 +101,7 @@ export default function CustomCursor() {
     <>
       {/* Main Cursor Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference flex items-center justify-center text-black font-bold text-[8px] tracking-widest overflow-hidden"
+        className="hidden md:flex fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference items-center justify-center text-black font-bold text-[8px] tracking-widest overflow-hidden"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -126,7 +126,7 @@ export default function CustomCursor() {
       
       {/* Trailing Aura */}
       <motion.div
-        className="fixed top-0 left-0 w-12 h-12 border border-white/20 rounded-full pointer-events-none z-[9998] mix-blend-difference"
+        className="hidden md:block fixed top-0 left-0 w-12 h-12 border border-white/20 rounded-full pointer-events-none z-[9998] mix-blend-difference"
         style={{
           x: cursorX,
           y: cursorY,

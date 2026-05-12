@@ -1,144 +1,197 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useAnimation } from "framer-motion";
+import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import MagneticButton from "./MagneticButton";
 
-const InteractiveLetter = ({ char, colors }: { char: string, colors: string[] }) => {
-  const [isHovered, setIsHovered] = useState(false);
+const COLORS = ["#00f0ff", "#8a2be2", "#ff007f", "#00f0ff", "#8a2be2"];
+const COLORS2 = ["#ff007f", "#8a2be2", "#00f0ff", "#ff007f", "#8a2be2"];
+
+/* ─── Interactive letter ─── */
+function InteractiveLetter({
+  char,
+  colorSet,
+}: {
+  char: string;
+  colorSet: string[];
+}) {
+  const controls = useAnimation();
+
+  const handleStart = () => {
+    controls.start({
+      scale: 1.15,
+      y: -10,
+      color: colorSet,
+      transition: {
+        scale: { duration: 0.2 },
+        y: { duration: 0.2 },
+        color: { duration: 1.2, repeat: Infinity, ease: "linear" },
+      },
+    });
+  };
+
+  const handleEnd = () => {
+    controls.start({
+      scale: 1,
+      y: 0,
+      color: "#ffffff",
+      transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+    });
+  };
+
+  if (char === " ") return <span className="inline-block">&nbsp;</span>;
 
   return (
     <motion.span
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      animate={
-        isHovered
-          ? { scale: 1.1, y: -10, color: colors }
-          : { scale: 1, y: 0, color: "#ffffff" }
-      }
-      transition={
-        isHovered
-          ? {
-              scale: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
-              y: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
-              color: { duration: 1, ease: "linear", repeat: Infinity },
-            }
-          : {
-              duration: 0.3,
-              ease: [0.16, 1, 0.3, 1],
-            }
-      }
-      className="inline-block"
+      animate={controls}
+      onMouseEnter={handleStart}
+      onMouseLeave={handleEnd}
+      onTouchStart={(e) => { e.preventDefault(); handleStart(); }}
+      onTouchEnd={handleEnd}
+      className="inline-block cursor-default select-none touch-manipulation"
     >
-      {char === " " ? "\u00A0" : char}
+      {char}
     </motion.span>
   );
-};
+}
 
+/* ─── Smooth scroll ─── */
+function scrollTo(id: string) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* ─── Hero ─── */
 export default function Hero() {
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const textVariants = {
-    hidden: { y: "100%" },
-    visible: { 
-      y: 0, 
-      transition: { duration: 1 } 
-    },
-  };
+  const containerRef = useRef<HTMLElement>(null);
 
   return (
-    <section className="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden bg-transparent">
-      
+    <section
+      id="home"
+      ref={containerRef}
+      className="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden bg-transparent"
+    >
+      {/* ── Main content ── */}
       <motion.div
-        variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="z-10 w-full px-4 md:px-12 flex flex-col justify-center items-center mix-blend-difference text-white pointer-events-none mt-20"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: { staggerChildren: 0.12, delayChildren: 0.3 },
+          },
+        }}
+        className="z-10 w-full px-4 md:px-12 flex flex-col justify-center items-center"
       >
-        <div className="overflow-hidden pointer-events-auto flex justify-center">
-            <motion.h1 
-              variants={textVariants}
-              className="text-[12vw] md:text-[10vw] font-bold tracking-tighter leading-[0.85] uppercase text-center cursor-default flex"
-            >
-              {"Sreeshanth".split("").map((char, index) => (
-                <InteractiveLetter 
-                  key={index} 
-                  char={char} 
-                  colors={["#ffffff", "#00f0ff", "#8a2be2", "#ff007f", "#00f0ff"]} 
-                />
-              ))}
-            </motion.h1>
-          </div>
-          <div className="overflow-hidden pointer-events-auto flex justify-center">
-            <motion.h1 
-              variants={textVariants}
-              className="text-[12vw] md:text-[10vw] font-bold tracking-tighter leading-[0.85] uppercase text-center italic text-white/90 cursor-default flex"
-            >
-              {"Reddy".split("").map((char, index) => (
-                <InteractiveLetter 
-                  key={index} 
-                  char={char} 
-                  colors={["#ffffff", "#ff007f", "#8a2be2", "#00f0ff", "#ff007f"]} 
-                />
-              ))}
-            </motion.h1>
-          </div>
-        
-
-        <div className="overflow-hidden mt-8 max-w-2xl pointer-events-auto">
-          <motion.p 
-            variants={textVariants}
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg md:text-2xl text-center font-medium cursor-default"
+        {/* ── Name line 1 ── */}
+        <div className="overflow-hidden">
+          <motion.h1
+            variants={{
+              hidden: { y: "110%" },
+              visible: { y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } },
+            }}
+            className="
+              text-[15vw] sm:text-[12vw] md:text-[9vw]
+              font-extrabold tracking-tighter leading-[0.88]
+              uppercase text-center flex flex-wrap justify-center
+              mix-blend-difference text-white
+            "
           >
-            Frontend Developer • AI Enthusiast • Creative Builder. Crafting modern websites and intelligent experiences with clean design, immersive animations, and scalable technology.
-          </motion.p>
+            {"Sreeshanth".split("").map((char, i) => (
+              <InteractiveLetter key={i} char={char} colorSet={COLORS} />
+            ))}
+          </motion.h1>
         </div>
-        
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.5, duration: 0.8 }}
-          className="mt-12 pointer-events-auto"
+
+        {/* ── Name line 2 ── */}
+        <div className="overflow-hidden">
+          <motion.h1
+            variants={{
+              hidden: { y: "110%" },
+              visible: { y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } },
+            }}
+            className="
+              text-[15vw] sm:text-[12vw] md:text-[9vw]
+              font-extrabold tracking-tighter leading-[0.88]
+              uppercase text-center flex flex-wrap justify-center italic
+              mix-blend-difference text-white
+            "
+          >
+            {"Reddy".split("").map((char, i) => (
+              <InteractiveLetter key={i} char={char} colorSet={COLORS2} />
+            ))}
+          </motion.h1>
+        </div>
+
+        {/* ── Subtitle ── */}
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.1 } },
+          }}
+          className="mt-6 md:mt-8 max-w-lg px-4"
+        >
+          <p className="text-sm sm:text-base md:text-lg text-center text-foreground/70 font-medium leading-relaxed">
+            Frontend Developer&nbsp;•&nbsp;AI Enthusiast&nbsp;•&nbsp;Creative Builder
+            <span className="hidden sm:inline">
+              . Crafting modern websites and intelligent experiences with clean
+              design and scalable technology.
+            </span>
+          </p>
+        </motion.div>
+
+        {/* ── CTA button ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.6, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-8 md:mt-12"
         >
           <MagneticButton>
-            <button className="group relative inline-flex items-center justify-center px-10 py-5 font-bold text-black transition-all duration-300 bg-white rounded-full overflow-hidden">
-              <div className="absolute inset-0 bg-black translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
-              <span className="relative z-10 group-hover:text-white transition-colors duration-300 mr-2 uppercase tracking-widest text-sm">Explore</span>
-              <ArrowRight className="w-4 h-4 relative z-10 group-hover:text-white transition-colors duration-300 group-hover:translate-x-1" />
+            <button
+              onClick={() => scrollTo("about")}
+              className="
+                group relative inline-flex items-center gap-2
+                px-8 py-3.5 md:px-10 md:py-4
+                rounded-full font-semibold text-sm uppercase tracking-widest
+                bg-foreground text-background
+                overflow-hidden
+                active:scale-95 transition-transform duration-150
+              "
+            >
+              {/* Hover fill */}
+              <span className="absolute inset-0 bg-gradient-to-r from-[#00f0ff] to-[#8a2be2] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+              <span className="relative z-10">Explore</span>
+              <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
           </MagneticButton>
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div 
+      {/* ── Scroll indicator ── */}
+      <motion.button
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 mix-blend-difference text-white"
+        transition={{ delay: 2.2, duration: 1 }}
+        onClick={() => scrollTo("about")}
+        className="
+          absolute bottom-8 left-1/2 -translate-x-1/2
+          flex flex-col items-center gap-2
+          text-foreground/40 hover:text-foreground/80
+          transition-colors duration-300 cursor-pointer
+        "
       >
-        <span className="text-xs tracking-widest uppercase">Scroll</span>
-        <motion.div 
-          animate={{ height: ["0%", "100%", "0%"], top: ["0%", "0%", "100%"] }} 
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="w-px h-16 bg-white/50 relative overflow-hidden"
-        >
-          <div className="absolute top-0 left-0 w-full h-1/2 bg-white" />
-        </motion.div>
-      </motion.div>
+        <span className="text-[10px] tracking-[0.25em] uppercase">Scroll</span>
+        <div className="w-px h-10 md:h-14 bg-foreground/20 relative overflow-hidden rounded-full">
+          <motion.div
+            className="absolute top-0 left-0 w-full bg-gradient-to-b from-[#00f0ff] to-[#8a2be2]"
+            animate={{ height: ["0%", "100%"], top: ["0%", "0%"] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut", repeatType: "reverse" }}
+          />
+        </div>
+      </motion.button>
     </section>
   );
 }

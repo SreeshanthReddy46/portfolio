@@ -30,7 +30,7 @@ export default function RootLayout({
             <Navbar />
             
             {/* Global Film Grain Noise Overlay */}
-            <div className="fixed inset-0 z-[100] pointer-events-none opacity-[0.03] mix-blend-difference">
+            <div className="fixed inset-0 z-[90] pointer-events-none opacity-[0.03] mix-blend-difference">
               <svg className="w-full h-full">
                 <filter id="noise">
                   <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" stitchTiles="stitch" />

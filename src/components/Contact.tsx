@@ -64,7 +64,7 @@ export default function Contact() {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               className="text-5xl md:text-7xl font-bold mb-6 tracking-tighter"
             >
-              Let's Create<br />
+              Let&apos;s Create<br />
               Something{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f0ff] to-[#8a2be2]">
                 Epic

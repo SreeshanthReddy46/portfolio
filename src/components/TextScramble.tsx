@@ -16,10 +16,8 @@ export default function TextScramble({ text, className }: { text: string, classN
     if (!isInView) return;
     
     let iteration = 0;
-    let interval: NodeJS.Timeout;
-
-    interval = setInterval(() => {
-      setDisplayText((prev) =>
+    const interval = setInterval(() => {
+      setDisplayText(() =>
         text
           .split("")
           .map((letter, index) => {

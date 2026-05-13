@@ -12,7 +12,8 @@ function Scene() {
   const groupRef = useRef<THREE.Group>(null);
   const directionalLightRef = useRef<THREE.DirectionalLight>(null);
   const pointLightRef = useRef<THREE.PointLight>(null);
-  const gridRef = useRef<THREE.Group>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const gridRef = useRef<any>(null);
 
   const { scrollYProgress } = useScroll();
   const [scrollProgress, setScrollProgress] = useState(0);

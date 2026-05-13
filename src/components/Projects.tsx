@@ -6,6 +6,7 @@ import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import MagneticButton from "./MagneticButton";
 import { motion, AnimatePresence } from "framer-motion";
+import TextScramble from "./TextScramble";
 
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -116,7 +117,7 @@ function DesktopProjects() {
               <img
                 src={project.image}
                 alt={project.title}
-                className="w-full h-full object-cover transition-all duration-[1s] ease-[cubic-bezier(0.16,1,0.3,1)] filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
+                className="w-full h-full object-cover transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 group-hover:hue-rotate-[15deg]"
                 style={{ clipPath: "inset(10% 10% 10% 10%)" }}
                 onMouseEnter={(e) =>
                   ((e.target as HTMLImageElement).style.clipPath =
@@ -132,8 +133,15 @@ function DesktopProjects() {
 
             <div className="absolute -bottom-12 left-0 right-0 flex justify-between items-end mix-blend-difference text-white opacity-0 translate-y-4 group-hover:opacity-100 group-hover:-translate-y-4 transition-all duration-500 ease-out z-20">
               <div className="max-w-xl">
-                <h3 className="text-4xl md:text-6xl font-bold tracking-tighter mb-2">
-                  {project.title}
+                <h3 className="text-4xl md:text-6xl font-bold tracking-tighter mb-2 h-[1.2em]">
+                  <AnimatePresence mode="wait">
+                    <TextScramble
+                      text={project.title}
+                      key={project.title}
+                      className="inline-block"
+                      triggerOnHover
+                    />
+                  </AnimatePresence>
                 </h3>
                 <p className="text-sm uppercase tracking-widest text-white/70 mb-4">
                   {project.category} // {project.client}

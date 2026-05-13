@@ -85,41 +85,54 @@ export default function Hero() {
         }}
         className="z-10 w-full px-4 md:px-12 flex flex-col justify-center items-center"
       >
-        {/* ── Name line 1 ── */}
-        <div className="overflow-hidden">
+        {/* ── Name line 1: SREESHANTH ── */}
+        <div className="flex flex-wrap justify-center items-center overflow-hidden mb-2 md:mb-6">
           <motion.h1
-            variants={{
-              hidden: { y: "110%" },
-              visible: { y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } },
-            }}
+            initial={{ x: "-100vw", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
             className="
               text-[15vw] sm:text-[12vw] md:text-[9vw]
               font-extrabold tracking-tighter leading-[0.88]
-              uppercase text-center flex flex-wrap justify-center
+              uppercase flex items-center
               mix-blend-difference text-white
             "
           >
-            {"Sreeshanth".split("").map((char, i) => (
+            {"SREE".split("").map((char, i) => (
+              <InteractiveLetter key={i} char={char} colorSet={COLORS} />
+            ))}
+          </motion.h1>
+          <motion.h1
+            initial={{ x: "100vw", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+            className="
+              text-[15vw] sm:text-[12vw] md:text-[9vw]
+              font-extrabold tracking-tighter leading-[0.88]
+              uppercase flex items-center
+              mix-blend-difference text-white
+            "
+          >
+            {"SHANTH".split("").map((char, i) => (
               <InteractiveLetter key={i} char={char} colorSet={COLORS} />
             ))}
           </motion.h1>
         </div>
 
-        {/* ── Name line 2 ── */}
-        <div className="overflow-hidden">
+        {/* ── Name line 2: REDDY ── */}
+        <div className="overflow-hidden mt-2 md:mt-6">
           <motion.h1
-            variants={{
-              hidden: { y: "110%" },
-              visible: { y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } },
-            }}
+            initial={{ x: "100vw", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
             className="
               text-[15vw] sm:text-[12vw] md:text-[9vw]
               font-extrabold tracking-tighter leading-[0.88]
-              uppercase text-center flex flex-wrap justify-center italic
+              uppercase text-center flex justify-center italic
               mix-blend-difference text-white
             "
           >
-            {"Reddy".split("").map((char, i) => (
+            {"REDDY".split("").map((char, i) => (
               <InteractiveLetter key={i} char={char} colorSet={COLORS2} />
             ))}
           </motion.h1>

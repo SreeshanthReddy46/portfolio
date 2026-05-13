@@ -13,9 +13,13 @@ const Word = ({
   range: [number, number];
 }) => {
   const opacity = useTransform(progress, range, [0.15, 1]);
-  const y = useTransform(progress, range, [8, 0]);
+  const y = useTransform(progress, range, [15, 0]);
   return (
-    <motion.span style={{ opacity, y }} className="text-foreground inline-block">
+    <motion.span
+      style={{ opacity, y }}
+      transition={{ duration: 1.0, ease: [0.36, 1, 0.64, 1] }}
+      className="text-foreground inline-block will-change-transform"
+    >
       {children}
     </motion.span>
   );
@@ -71,11 +75,12 @@ export default function About() {
     "I'm a frontend developer and AI enthusiast who enjoys building modern, interactive web experiences. I'm passionate about creating products that feel smooth, visually engaging, and easy to use, especially with animations, immersive UI, and AI-powered features. I love turning ideas into real applications and constantly exploring new technologies to improve the way people interact with digital products. My goal is to build meaningful experiences that combine creativity, performance, and innovation.";
   const words = paragraph.split(" ");
 
+
   return (
     <section
       id="about"
       ref={containerRef}
-      className="w-full min-h-screen py-16 md:py-32 flex flex-col justify-center items-center overflow-hidden bg-background"
+      className="w-full min-h-screen py-16 md:py-32 flex flex-col justify-center items-center overflow-hidden bg-background relative"
     >
       <div className="max-w-7xl mx-auto px-5 md:px-8 w-full flex flex-col gap-16 md:gap-24">
         {/* Scroll-driven word reveal */}

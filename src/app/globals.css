@@ -50,44 +50,6 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
 
 /* ─────────────────────────────────────────────────────────────
-   EDUCATION ROW – hover AND tap (.edu-active) interaction
-   ───────────────────────────────────────────────────────────── */
-
-/* Desktop hover → fill sweep */
-.edu-row:hover .edu-fill {
-  transform: translateY(0%);
-}
-.edu-row:hover .edu-left span,
-.edu-row:hover .edu-title,
-.edu-row:hover .edu-desc {
-  color: var(--background);
-}
-.edu-row:hover .edu-tag {
-  border-color: rgba(255,255,255,0.3);
-  color: rgba(255,255,255,0.7);
-}
-.edu-row:hover .edu-arrow {
-  opacity: 1;
-}
-
-/* Mobile tap (.edu-active) → same fill sweep */
-.edu-active .edu-fill {
-  transform: translateY(0%);
-}
-.edu-active .edu-left span,
-.edu-active .edu-title,
-.edu-active .edu-desc {
-  color: var(--background);
-}
-.edu-active .edu-tag {
-  border-color: rgba(255,255,255,0.3);
-  color: rgba(255,255,255,0.7);
-}
-.edu-active .edu-arrow {
-  opacity: 1;
-}
-
-/* ─────────────────────────────────────────────────────────────
    TOUCH DEVICES – show hover-only elements by default
    ───────────────────────────────────────────────────────────── */
 @media (hover: none) {

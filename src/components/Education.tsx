@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { useRef, useState, useCallback } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState, useCallback, useEffect } from "react";
 
 const educationItems = [
   {
@@ -13,7 +13,7 @@ const educationItems = [
   },
 ];
 
-function SectionTitle() {
+function SectionTitle({ isLampOn }: { isLampOn: boolean }) {
   const ref = useRef<HTMLHeadingElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -22,7 +22,11 @@ function SectionTitle() {
       <motion.h2
         ref={ref}
         initial={{ y: "110%" }}
-        animate={isInView ? { y: 0 } : {}}
+        animate={{ 
+          y: isInView ? 0 : "110%",
+          opacity: isLampOn ? 1 : 0.1,
+          filter: isLampOn ? "blur(0px)" : "blur(4px)"
+        }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         className="text-4xl md:text-6xl font-bold tracking-tighter uppercase"
       >
@@ -36,29 +40,13 @@ function SectionTitle() {
 function EducationRow({
   item,
   index,
+  isLampOn,
 }: {
   item: (typeof educationItems)[0];
   index: number;
+  isLampOn: boolean;
 }) {
   const rowRef = useRef<HTMLDivElement>(null);
-
-  // Touch-friendly: toggle active on tap, hover on desktop
-  const [active, setActive] = useState(false);
-
-  // Spotlight state
-  const [spotlight, setSpotlight] = useState<{ x: number; y: number } | null>(null);
-
-  const toggle = () => setActive((p) => !p);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = rowRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    setSpotlight({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    setSpotlight(null);
-  }, []);
 
   return (
     <motion.div
@@ -66,86 +54,50 @@ function EducationRow({
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.9, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      onClick={toggle}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className={`edu-row group relative flex flex-col md:flex-row justify-between py-10 md:py-12 border-t border-foreground/10 cursor-pointer overflow-hidden select-none ${
-        active ? "edu-active" : ""
-      }`}
+      animate={{
+        opacity: isLampOn ? 1 : 0.05,
+        filter: isLampOn ? "blur(0px)" : "blur(8px)",
+        scale: isLampOn ? 1 : 0.98,
+      }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="edu-row group relative flex flex-col md:flex-row justify-between py-10 md:py-12 border-t border-foreground/10 overflow-hidden select-none"
     >
-      {/* Hover fill sweep — also triggers on .edu-active (touch tap) */}
-      <div className="edu-fill absolute inset-0 bg-foreground translate-y-[101%] transition-transform duration-[1s] ease-[cubic-bezier(0.16,1,0.3,1)] z-0" />
-
-      {/* Mouse spotlight radial glow */}
-      {spotlight && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute z-[1] transition-opacity duration-300"
-          style={{
-            left: spotlight.x,
-            top: spotlight.y,
-            transform: "translate(-50%, -50%)",
-            width: 420,
-            height: 420,
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle, rgba(0,240,255,0.55) 0%, rgba(138,43,226,0.35) 35%, rgba(255,0,127,0.10) 60%, transparent 75%)",
-            filter: "blur(6px)",
-            mixBlendMode: "screen",
-          }}
-        />
-      )}
-
       {/* Left: year + institution */}
-      <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        className="edu-left relative z-10 flex flex-col md:w-1/3 mb-6 md:mb-0"
-      >
-        <span className="text-xs md:text-sm uppercase tracking-widest text-foreground/50 transition-colors duration-300 mb-2">
+      <div className="edu-left relative z-10 flex flex-col md:w-1/3 mb-6 md:mb-0">
+        <span className="text-xs md:text-sm uppercase tracking-widest text-foreground/50 mb-2">
           {item.year}
         </span>
-        <span className="text-base md:text-xl font-bold uppercase tracking-wide transition-colors duration-300">
+        <span className="text-base md:text-xl font-bold uppercase tracking-wide">
           {item.institution}
         </span>
-      </motion.div>
+      </div>
 
       {/* Right: title + desc + tags */}
-      <motion.div
-        initial={{ opacity: 0, x: 30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 flex flex-col md:w-2/3"
-      >
-        <h3 className="edu-title text-2xl md:text-4xl lg:text-5xl font-bold tracking-tighter mb-3 md:mb-4 transition-colors duration-300 leading-tight">
+      <div className="relative z-10 flex flex-col md:w-2/3">
+        <h3 className="edu-title text-2xl md:text-4xl lg:text-5xl font-bold tracking-tighter mb-3 md:mb-4 leading-tight">
           {item.title}
         </h3>
-        <p className="edu-desc text-sm md:text-base text-foreground/70 transition-colors duration-300 max-w-xl mb-5 md:mb-6 leading-relaxed">
+        <p className="edu-desc text-sm md:text-base text-foreground/70 max-w-xl mb-5 md:mb-6 leading-relaxed">
           {item.desc}
         </p>
         {/* Tag pills */}
         <div className="flex flex-wrap gap-2 md:gap-3">
           {item.tags.map((tag, j) => (
-            <motion.span
+            <span
               key={j}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 + j * 0.1 }}
-              className="edu-tag text-xs uppercase tracking-widest px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-foreground/20 text-foreground/60 transition-colors duration-300"
+              className="edu-tag text-xs uppercase tracking-widest px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-foreground/20 text-foreground/60"
             >
               {tag}
-            </motion.span>
+            </span>
           ))}
         </div>
-      </motion.div>
+      </div>
 
-      {/* Arrow */}
-      <div className="edu-arrow absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 opacity-0 transition-opacity duration-500 text-background">
+      {/* Minimal decorative element - just an arrow that appears when lamp is on */}
+      <motion.div 
+        animate={{ opacity: isLampOn ? 0.3 : 0 }}
+        className="edu-arrow absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 text-foreground"
+      >
         <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
           <path
             d="M6 16h20M18 8l8 8-8 8"
@@ -155,13 +107,99 @@ function EducationRow({
             strokeLinejoin="round"
           />
         </svg>
-      </div>
+      </motion.div>
     </motion.div>
+  );
+}
+
+function Lamp({ isOn, setIsOn }: { isOn: boolean; setIsOn: (v: boolean) => void }) {
+  const lampRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(lampRef, { margin: "-10% 0px -70% 0px" });
+
+  useEffect(() => {
+    if (isInView) {
+      setIsOn(true);
+      // Auto-turn off after 3 seconds to encourage interaction
+      const timer = setTimeout(() => setIsOn(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isInView, setIsOn]);
+
+  return (
+    <div
+      ref={lampRef}
+      onMouseEnter={() => setIsOn(true)}
+      onMouseLeave={() => setIsOn(false)}
+      className="relative flex flex-col items-center group cursor-pointer mb-24 z-50"
+    >
+      {/* Wire */}
+      <div className="w-px h-32 md:h-48 bg-foreground/20 group-hover:bg-foreground/50 transition-colors duration-500" />
+      
+      {/* Lamp Head */}
+      <motion.div
+        animate={{
+          y: isOn ? [0, -2, 0] : 0,
+          rotate: isOn ? [0, 1, -1, 0] : 0
+        }}
+        transition={{ repeat: Infinity, duration: 2 }}
+        className="relative"
+      >
+        <svg width="60" height="40" viewBox="0 0 60 40" fill="none" className="text-foreground transition-colors duration-500">
+          <path 
+            d="M10 35 L50 35 L58 38 L2 38 Z" 
+            fill="currentColor" 
+            fillOpacity={isOn ? 1 : 0.2}
+          />
+          <path 
+            d="M15 35 L45 35 L52 10 L8 10 Z" 
+            fill="currentColor" 
+            fillOpacity={isOn ? 0.8 : 0.1}
+          />
+          <path d="M25 10 L35 10 L32 2 L28 2 Z" fill="currentColor" fillOpacity={isOn ? 0.5 : 0.1} />
+        </svg>
+        
+        {/* The Bulb Glow */}
+        <AnimatePresence>
+          {isOn && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              className="absolute top-[30px] left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-yellow-400 blur-sm z-10"
+            />
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Light Beam / Cone */}
+      <AnimatePresence>
+        {isOn && (
+          <motion.div
+            initial={{ opacity: 0, scaleY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            exit={{ opacity: 0, scaleY: 0 }}
+            style={{ originY: 0 }}
+            className="absolute top-[35px] left-1/2 -translate-x-1/2 w-[400px] md:w-[800px] h-[600px] pointer-events-none z-0"
+          >
+            <div 
+              className="w-full h-full"
+              style={{
+                background: "conic-gradient(from 165deg at 50% 0%, transparent 0%, rgba(255,255,255,0.05) 10%, rgba(255,255,255,0.08) 15%, transparent 30%)",
+                filter: "blur(40px)",
+              }}
+            />
+            {/* Soft radial base glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-radial from-white/5 to-transparent blur-3xl" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
 export default function Education() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLampOn, setIsLampOn] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -186,25 +224,32 @@ export default function Education() {
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-5 md:px-12 relative z-10">
-        <SectionTitle />
+        <SectionTitle isLampOn={isLampOn} />
 
-        {/* Top gradient line */}
-        <div className="h-px bg-foreground/10 relative overflow-hidden mb-0">
-          <motion.div
-            style={{ scaleX: lineScaleX, originX: 0 }}
-            className="absolute inset-0 bg-gradient-to-r from-[#00f0ff] to-[#8a2be2]"
-          />
+        <div className="relative flex flex-col items-center mb-12">
+          {/* The Lamp hanging over the line */}
+          <div className="absolute -top-32 md:-top-48 left-1/2 -translate-x-1/2 z-50">
+            <Lamp isOn={isLampOn} setIsOn={setIsLampOn} />
+          </div>
+
+          {/* Top gradient line */}
+          <div className="w-full h-px bg-foreground/10 relative overflow-hidden">
+            <motion.div
+              style={{ scaleX: lineScaleX, originX: 0 }}
+              className="absolute inset-0 bg-gradient-to-r from-[#00f0ff] to-[#8a2be2]"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col border-b border-foreground/10">
           {educationItems.map((item, i) => (
-            <EducationRow key={i} item={item} index={i} />
+            <EducationRow key={i} item={item} index={i} isLampOn={isLampOn} />
           ))}
         </div>
 
         {/* Tap hint for mobile */}
         <p className="md:hidden text-xs text-foreground/30 uppercase tracking-widest mt-4 text-center">
-          Tap a row to interact
+          Tap the lamp or a row to interact
         </p>
       </div>
     </section>

@@ -51,8 +51,8 @@ export default function Skills() {
         {skillsRow1.map((skill, i) => (
           <div key={i} className="flex items-center gap-8 md:gap-32">
             <span
-              className="text-[12vw] md:text-[10vw] font-bold tracking-tighter leading-none text-transparent hover-target transition-colors duration-500 hover:text-foreground cursor-default"
-              style={{ WebkitTextStroke: "1.5px currentColor" }}
+              className="text-[12vw] md:text-[10vw] font-bold tracking-tighter leading-none text-transparent transition-all duration-500 hover:text-foreground cursor-default opacity-30 hover:opacity-100"
+              style={{ WebkitTextStroke: "1.5px var(--foreground)" }}
             >
               {skill}
             </span>
@@ -69,8 +69,8 @@ export default function Skills() {
         {skillsRow2.map((skill, i) => (
           <div key={i} className="flex items-center gap-8 md:gap-32">
             <span
-              className="text-[12vw] md:text-[10vw] font-bold tracking-tighter leading-none text-foreground hover-target transition-all duration-500 hover:text-transparent cursor-default"
-              style={{ WebkitTextStroke: "1.5px currentColor" }}
+              className="text-[12vw] md:text-[10vw] font-bold tracking-tighter leading-none text-transparent transition-all duration-500 hover:text-foreground cursor-default opacity-30 hover:opacity-100"
+              style={{ WebkitTextStroke: "1.5px var(--foreground)" }}
             >
               {skill}
             </span>

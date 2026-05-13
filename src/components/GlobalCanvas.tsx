@@ -12,8 +12,7 @@ function Scene() {
   const groupRef = useRef<THREE.Group>(null);
   const directionalLightRef = useRef<THREE.DirectionalLight>(null);
   const pointLightRef = useRef<THREE.PointLight>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const gridRef = useRef<any>(null);
+  const gridRef = useRef<THREE.Group>(null);
 
   const { scrollYProgress } = useScroll();
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -45,7 +44,9 @@ function Scene() {
     }
 
     if (materialRef.current) {
+      // @ts-ignore - Distort material properties
       materialRef.current.distort = 0.4 + Math.sin(time) * 0.2 + scrollProgress * 0.5;
+      // @ts-ignore
       materialRef.current.speed = 2 + scrollProgress * 5;
     }
   });

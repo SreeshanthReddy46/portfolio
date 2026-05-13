@@ -53,12 +53,14 @@ export default function Navbar() {
         }`}
       >
         {/* Logo */}
-        <button
-          onClick={() => smoothScrollTo("home")}
-          className="font-bold text-base md:text-xl tracking-tighter cursor-pointer text-foreground"
-        >
-          PORTFOLIO©
-        </button>
+        <MagneticButton>
+          <button
+            onClick={() => smoothScrollTo("home")}
+            className="font-bold text-base md:text-xl tracking-tighter cursor-pointer text-foreground p-2"
+          >
+            PORTFOLIO©
+          </button>
+        </MagneticButton>
 
         {/* Desktop Nav Links */}
         <div className="hidden md:flex gap-8 items-center">

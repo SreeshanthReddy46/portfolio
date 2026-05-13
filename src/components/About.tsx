@@ -17,7 +17,7 @@ const Word = ({
   return (
     <motion.span
       style={{ opacity, y }}
-      transition={{ duration: 1.0, ease: [0.36, 1, 0.64, 1] }}
+      transition={{ duration: 1.0, ease: [0.36, 1, 0.64, 1] as [number, number, number, number] }}
       className="text-foreground inline-block will-change-transform"
     >
       {children}
@@ -108,7 +108,7 @@ export default function About() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
               whileHover={{ scale: 1.04 }}
               className="flex flex-col group cursor-default"
             >
@@ -124,7 +124,7 @@ export default function About() {
                   initial={{ scaleX: 0, originX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 1.2, delay: 0.4 + i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 1.2, delay: 0.4 + i * 0.2, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
                 />
               </div>
             </motion.div>

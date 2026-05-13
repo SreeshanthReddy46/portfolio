@@ -181,7 +181,7 @@ function MobileProjectCard({
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       className="flex flex-col rounded-2xl overflow-hidden border border-foreground/10 bg-foreground/[0.02] active:scale-[0.98] transition-transform duration-200"
     >
       {/* Image */}
@@ -228,7 +228,7 @@ function MobileProjectCard({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
             className="overflow-hidden"
           >
             <div className="p-4 flex flex-col gap-4 border-t border-foreground/10">
@@ -262,7 +262,7 @@ function MobileProjects() {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
         className="text-5xl font-bold tracking-tighter uppercase leading-none mb-4"
       >
         Selected <br /> Works

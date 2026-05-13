@@ -36,7 +36,7 @@ function InteractiveLetter({
       scale: 1,
       y: 0,
       color: "#ffffff",
-      transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
     });
   };
 
@@ -90,7 +90,7 @@ export default function Hero() {
           <motion.h1
             initial={{ x: "-100vw", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: 0.5 }}
             className="
               text-[15vw] sm:text-[12vw] md:text-[9vw]
               font-extrabold tracking-tighter leading-[0.88]
@@ -105,7 +105,7 @@ export default function Hero() {
           <motion.h1
             initial={{ x: "100vw", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: 0.5 }}
             className="
               text-[15vw] sm:text-[12vw] md:text-[9vw]
               font-extrabold tracking-tighter leading-[0.88]
@@ -124,7 +124,7 @@ export default function Hero() {
           <motion.h1
             initial={{ x: "100vw", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
+            transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: 0.8 }}
             className="
               text-[15vw] sm:text-[12vw] md:text-[9vw]
               font-extrabold tracking-tighter leading-[0.88]
@@ -159,7 +159,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.6, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ delay: 1.6, duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
           className="mt-8 md:mt-12"
         >
           <MagneticButton>

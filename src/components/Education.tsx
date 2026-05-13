@@ -27,7 +27,7 @@ function SectionTitle({ isLampOn }: { isLampOn: boolean }) {
           opacity: isLampOn ? 1 : 0.1,
           filter: isLampOn ? "blur(0px)" : "blur(4px)"
         }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
         className="text-4xl md:text-6xl font-bold tracking-tighter uppercase"
       >
         Academic <br />{" "}
@@ -59,7 +59,7 @@ function EducationRow({
         filter: isLampOn ? "blur(0px)" : "blur(8px)",
         scale: isLampOn ? 1 : 0.98,
       }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       className="edu-row group relative flex flex-col md:flex-row justify-between py-10 md:py-12 border-t border-foreground/10 overflow-hidden select-none"
     >
       {/* Left: year + institution */}

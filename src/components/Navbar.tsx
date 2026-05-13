@@ -45,7 +45,7 @@ export default function Navbar() {
       <motion.nav
         initial={{ y: -100, x: "-50%" }}
         animate={{ y: 0, x: "-50%" }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: 0.2 }}
         className={`fixed top-6 left-1/2 z-50 flex items-center justify-between px-5 md:px-8 py-3 md:py-4 w-[92%] md:w-auto md:min-w-[580px] rounded-full border shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] transition-all duration-500 ${
           scrolled
             ? "bg-background/60 backdrop-blur-2xl border-foreground/20"
@@ -155,7 +155,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
                 className="text-5xl font-bold tracking-tighter uppercase text-foreground py-3 active:scale-95 transition-transform"
                 onClick={() => {
                   smoothScrollTo(link.href);

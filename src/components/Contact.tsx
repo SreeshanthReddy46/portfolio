@@ -53,7 +53,7 @@ export default function Contact() {
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
           className="text-center mb-16"
         >
           <div className="overflow-hidden">
@@ -61,7 +61,7 @@ export default function Contact() {
               initial={{ y: "110%" }}
               whileInView={{ y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
               className="text-5xl md:text-7xl font-bold mb-6 tracking-tighter"
             >
               Let&apos;s Create<br />
@@ -93,7 +93,7 @@ export default function Contact() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.5 + i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.5 + i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
                 whileHover={{ y: -3 }}
                 className="relative text-gray-400 hover:text-[#00f0ff] transition-colors uppercase tracking-widest text-sm font-bold group"
               >
